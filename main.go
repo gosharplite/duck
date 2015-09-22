@@ -1,13 +1,16 @@
 package main
 
 import (
+	"time"
 	"flag"
 	"fmt"
 	"net/http"
+	"log"
 )
 
 var (
 	PORT = flag.Int("port", 80, "Server port")
+	DELAY = flag.Int("delay", 150, "delay in millisecond")
 )
 
 func main() {
@@ -23,7 +26,11 @@ func main() {
 
 func handler(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Printf("hit")
+	log.Printf("start")
+	
+	time.Sleep(time.Duration(*DELAY) * time.Millisecond)
+	
+	log.Printf("end")
 
 	fmt.Fprint(w, "quack")
 }
