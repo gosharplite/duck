@@ -1,8 +1,8 @@
 # duck
 Web server as sitting duck.
 
-$ docker build -t gosharplite/duck:v4 .
+$ docker build -t gosharplite/duck:v5 .
 
-$ docker push gosharplite/duck:v4
+$ docker push gosharplite/duck:v5
 
-$ docker run --publish 8093:8092 gosharplite/duck:v4 -port=8092
+$ docker run --publish 8093:8092 gosharplite/duck:v5 -port=8092

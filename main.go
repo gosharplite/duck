@@ -33,7 +33,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	logs("end")
 
-	fmt.Fprint(w, "quack")
+	fmt.Fprint(w, "quack-"+r.RemoteAddr+"\n")
 }
 
 func logs(format string, v ...interface{}) {
