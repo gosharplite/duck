@@ -1,8 +1,4 @@
-FROM ubuntu:latest
-RUN apt-get update && apt-get install -y \
-    vim \
-    curl \
-	dnsutils
+FROM google/debian:wheezy
 ADD duck duck
 EXPOSE 80
 ENTRYPOINT ["/duck"]
