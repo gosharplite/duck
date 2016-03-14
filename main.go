@@ -3,9 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -33,9 +35,15 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	time.Sleep(time.Duration(*DELAY) * time.Millisecond)
 
-	logs("end")
+	defer r.Body.Close()
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		fmt.Fprint(w, "quack - "+r.RemoteAddr+" -> "+LOCAL_IP+"\n")
+	} else {
+		fmt.Fprint(w, "quack - "+r.RemoteAddr+" -> "+LOCAL_IP+" : len(body)="+strconv.Itoa(len(body))+"\n")
+	}
 
-	fmt.Fprint(w, "quack - "+r.RemoteAddr+" -> "+LOCAL_IP+"\n")
+	logs("end")
 }
 
 func logs(format string, v ...interface{}) {
