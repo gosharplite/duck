@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net"
 	"net/http"
 	"strconv"
@@ -13,8 +12,7 @@ import (
 
 var (
 	PORT     = flag.Int("port", 80, "Server port")
-	DELAY    = flag.Int("delay", 150, "delay in millisecond")
-	LOGS     = flag.Bool("logs", false, "Show logs")
+	DELAY    = flag.Int("delay", 0, "delay in millisecond")
 	LOCAL_IP = getLocalIP()
 )
 
@@ -31,25 +29,18 @@ func main() {
 
 func handler(w http.ResponseWriter, r *http.Request) {
 
-	logs("start")
+	t := time.Now()
 
 	time.Sleep(time.Duration(*DELAY) * time.Millisecond)
 
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		fmt.Fprint(w, "quack - "+r.RemoteAddr+" -> "+LOCAL_IP+"\n")
-	} else {
-		fmt.Fprint(w, "quack - "+r.RemoteAddr+" -> "+LOCAL_IP+" : len(body)="+strconv.Itoa(len(body))+"\n")
+		fmt.Fprint(w, "error: "+err.Error()+" , t="+time.Since(t).String()+"\n")
+		return
 	}
 
-	logs("end")
-}
-
-func logs(format string, v ...interface{}) {
-	if *LOGS {
-		log.Printf(format, v...)
-	}
+	fmt.Fprint(w, "quack - "+r.RemoteAddr+" -> "+LOCAL_IP+" , len(body)="+strconv.Itoa(len(body))+" , t="+time.Since(t).String()+"\n")
 }
 
 func getLocalIP() string {
