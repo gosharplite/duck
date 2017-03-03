@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	pro "github.com/gosharplite/duck/src/instrument"
 	"net/http"
 	"time"
 )
@@ -20,10 +21,13 @@ func main() {
 
 	err := http.ListenAndServe(fmt.Sprintf(":%d", *PORT), nil)
 
-	fmt.Printf("ListenAndServe: %v\n", err)
+	fmt.Printf("duck server failed to start: %v", err)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
+
+	timer := pro.NewTimer("handler")
+	defer timer.ObserveDuration()
 
 	time.Sleep(time.Duration(*DELAY) * time.Millisecond)
 
