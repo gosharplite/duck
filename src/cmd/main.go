@@ -3,8 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	pro "instrument"
-	"log"
+	pro "github.com/gosharplite/duck/src/instrument"
 	"net/http"
 	"time"
 )
@@ -18,21 +17,11 @@ func main() {
 
 	flag.Parse()
 
-	go func() {
-		h := pro.NewInstrument()
-
-		err := h.Serve()
-		if err != nil {
-			log.Fatalf("instrumentation failed to start: %v", err)
-		}
-	}()
-
 	http.HandleFunc("/", handler)
 
 	err := http.ListenAndServe(fmt.Sprintf(":%d", *PORT), nil)
-	if err != nil {
-		log.Fatalf("duck server failed to start: %v", err)
-	}
+
+	fmt.Printf("duck server failed to start: %v", err)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
