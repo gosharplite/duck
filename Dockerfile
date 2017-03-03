@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
-ADD duck duck
-EXPOSE 80
+FROM scratch
+ADD duck /
+EXPOSE 8080
 ENTRYPOINT ["/duck"]
