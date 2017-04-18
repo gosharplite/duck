@@ -11,7 +11,7 @@ var (
 		prometheus.HistogramOpts{
 			Name:    "request_duration_seconds",
 			Help:    "Histogram for request duration, partitioned by API.",
-			Buckets: prometheus.DefBuckets,
+			Buckets: []float64{.000001, .000005, .00001, .00005, .0001, .0005, .001, .005, .01, .025, .05, .1, .25, .5, 1, 2.5, 5, 10},
 		},
 		[]string{"api"},
 	)
